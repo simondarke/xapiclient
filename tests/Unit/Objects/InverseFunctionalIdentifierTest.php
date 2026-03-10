@@ -2,6 +2,7 @@
 
 use SimonDarke\XapiClient\Exceptions\InvalidIriException;
 use SimonDarke\XapiClient\Exceptions\ValidationException;
+use SimonDarke\XapiClient\Objects\Account;
 use SimonDarke\XapiClient\Objects\InverseFunctionalIdentifier;
 
 it('normalises plain email to mailto: prefix on serialization', function () {
@@ -59,3 +60,26 @@ it('throws correct exception when openid is missing', function () {
     InverseFunctionalIdentifier::openId('');
 })->throws(InvalidIriException::class, 'Field \'openId\' is required')
     ->group('openId');
+
+it('validates account successfully', function () {
+    $account = InverseFunctionalIdentifier::account(new Account('test name', 'http://test.com'));
+    expect($account)->toBeInstanceOf(InverseFunctionalIdentifier::class)
+    ->and($account->jsonSerialize())
+        ->toBeArray()
+        ->toMatchArray(
+            [
+                'account'
+                    => ['name' => 'test name', 'homePage' => 'http://test.com'],
+            ],
+        );
+})->group('account');
+
+it('throws correct exception when account has invalid homePage', function () {
+    InverseFunctionalIdentifier::account(new Account('test name', 'not a valid homePage'));
+})->throws(InvalidIriException::class, 'Field \'homePage\' must be a valid absolute IRI, \'not a valid homePage\' given')
+    ->group('account');
+
+it('throws correct exception when account has empty name', function () {
+    InverseFunctionalIdentifier::account(new Account('', 'http://www.test.com'));
+})->throws(ValidationException::class, 'Validation failed for \'name\': must not be empty')
+    ->group('account');
