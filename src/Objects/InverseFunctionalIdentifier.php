@@ -43,18 +43,21 @@ readonly class InverseFunctionalIdentifier implements \JsonSerializable
         return new self('account', null, $account);
     }
 
+    /**
+     * @return array<string, array<string, string>|string|null>
+     */
     public function jsonSerialize(): array
     {
         return match ($this->type) {
             'mbox' => ['mbox' => $this->value],
             'mbox_sha1sum' => ['mbox_sha1sum' => $this->value],
             'openid' => ['openid' => $this->value],
-            'account' => ['account' => $this->account->jsonSerialize()],
+            'account' => ['account' => $this->account?->jsonSerialize()],
+            default => throw new \LogicException("Unknown IFI type: {$this->type}"),
         };
     }
 
-
-    private static function validateMbox($value): void
+    private static function validateMbox(string $value): void
     {
         $value = str_starts_with($value, 'mailto:') ? substr($value, 7) : $value;
 
@@ -63,7 +66,7 @@ readonly class InverseFunctionalIdentifier implements \JsonSerializable
         }
     }
 
-    private static function validateMboxSha1Sum($value): void
+    private static function validateMboxSha1Sum(string $value): void
     {
         if (!ctype_xdigit($value) || strlen($value) !== 40) {
             throw InvalidIriException::invalidField('mbox_sha1sum', 'must be a 40 character hex string');

@@ -34,6 +34,9 @@ readonly class Account implements \JsonSerializable
         return $this->homePage;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function jsonSerialize(): array
     {
         return [
