@@ -33,6 +33,6 @@
     "scripts": {
         "format": "php-cs-fixer fix --config=.php-cs-fixer.dist.php",
         "phpstan": "vendor/bin/phpstan analyse src tests --level 10",
-        "test": "vendor/bin/pest",
+        "test": "vendor/bin/pest"
     }
 }
