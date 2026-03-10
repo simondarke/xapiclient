@@ -28,7 +28,7 @@ readonly class InverseFunctionalIdentifier implements \JsonSerializable
 
     public static function openId(string $value): self
     {
-        if (!$value) {
+        if (empty($value)) {
             throw InvalidIriException::missing('openId');
         }
 
