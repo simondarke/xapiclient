@@ -7,12 +7,12 @@ use SimonDarke\XapiClient\Objects\InverseFunctionalIdentifier;
 
 it('normalises plain email to mailto: prefix on serialization', function () {
     $mbox = InverseFunctionalIdentifier::mbox('test@test.com');
-    expect($mbox->jsonSerialize())->toBeArray()->toMatchArray(['mbox' => 'mailto:test@test.com']);
+    expect($mbox->jsonSerialize())->toBeArray()->toBe(['mbox' => 'mailto:test@test.com']);
 })->group('mbox');
 
 it('preserves existing mailto: prefix on serialization', function () {
     $mbox = InverseFunctionalIdentifier::mbox('mailto:test@test.com');
-    expect($mbox->jsonSerialize())->toBeArray()->toMatchArray(['mbox' => 'mailto:test@test.com']);
+    expect($mbox->jsonSerialize())->toBeArray()->toBe(['mbox' => 'mailto:test@test.com']);
 })->group('mbox');
 
 it('fails gracefully with an invalid email with mailto: prefix', function () {
@@ -27,7 +27,7 @@ it('fails gracefully with an invalid email without mailto: prefix', function () 
 
 it('validates mboxsha1sum successfully', function () {
     $mboxSha1Sum = InverseFunctionalIdentifier::mboxSha1Sum(sha1('thisisateststring'));
-    expect($mboxSha1Sum->jsonSerialize())->toBeArray()->toMatchArray(['mbox_sha1sum' => sha1('thisisateststring')]);
+    expect($mboxSha1Sum->jsonSerialize())->toBeArray()->toBe(['mbox_sha1sum' => sha1('thisisateststring')]);
 })->group('mboxSha1Sum');
 
 it('throws exception when provided value is non hex string', function () {
@@ -48,7 +48,7 @@ it('throws exception when provided value is more than 40 character hex string', 
 it('validates openid successfully', function () {
     $openId = InverseFunctionalIdentifier::openId('http://www.validopenid.com');
     expect($openId)->toBeInstanceOf(InverseFunctionalIdentifier::class)
-        ->and($openId->jsonSerialize())->toBeArray()->toMatchArray(['openid' => 'http://www.validopenid.com']);
+        ->and($openId->jsonSerialize())->toBeArray()->toBe(['openid' => 'http://www.validopenid.com']);
 })->group('openId');
 
 it('throws correct exception when provided invalid openid', function () {
@@ -66,7 +66,7 @@ it('validates account successfully', function () {
     expect($account)->toBeInstanceOf(InverseFunctionalIdentifier::class)
     ->and($account->jsonSerialize())
         ->toBeArray()
-        ->toMatchArray(
+        ->toBe(
             [
                 'account'
                     => ['name' => 'test name', 'homePage' => 'http://test.com'],
