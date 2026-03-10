@@ -26,8 +26,12 @@ readonly class InverseFunctionalIdentifier implements \JsonSerializable
         return new self('mbox_sha1sum', $value, null);
     }
 
-    public static function openid(string $value): self
+    public static function openId(string $value): self
     {
+        if (!$value) {
+            throw InvalidIriException::missing('openId');
+        }
+
         if (!filter_var($value, FILTER_VALIDATE_URL)) {
             throw InvalidIriException::invalidUrl('openId', $value);
         }
