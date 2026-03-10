@@ -1,0 +1,26 @@
+{
+    "name": "simondarke/xapiclient",
+    "description": "A simple client to handle sending xAPI requests from a laravel app",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SimonDarke\\XapiClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Simon Darke",
+            "email": "simon@darke.fyi"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.4"
+    }
+}
