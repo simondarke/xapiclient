@@ -7,7 +7,6 @@ use SimonDarke\XapiClient\Objects\Account;
 it('constructs successfully with valid data', function () {
     $account = new Account('valid name', 'http://www.validiri.com');
     expect($account->jsonSerialize()['name'])->toBe('valid name')->and($account->jsonSerialize()['homePage'])->toBe('http://www.validiri.com');
-
 });
 
 it('throws correct exception when name is empty', function () {
