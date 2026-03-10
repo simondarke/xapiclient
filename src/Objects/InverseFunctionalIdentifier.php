@@ -45,7 +45,7 @@ readonly class InverseFunctionalIdentifier implements \JsonSerializable
 
     public function jsonSerialize(): array
     {
-        return match($this->type) {
+        return match ($this->type) {
             'mbox' => ['mbox' => $this->value],
             'mbox_sha1sum' => ['mbox_sha1sum' => $this->value],
             'openid' => ['openid' => $this->value],
@@ -58,8 +58,7 @@ readonly class InverseFunctionalIdentifier implements \JsonSerializable
     {
         $value = str_starts_with($value, 'mailto:') ? substr($value, 7) : $value;
 
-        if (!filter_var($value, FILTER_VALIDATE_EMAIL))
-        {
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw ValidationException::invalidField('mbox', 'invalid email address given');
         }
     }

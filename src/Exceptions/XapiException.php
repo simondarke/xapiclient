@@ -2,6 +2,4 @@
 
 namespace SimonDarke\XapiClient\Exceptions;
 
-class XapiException extends \RuntimeException
-{
-}
+class XapiException extends \RuntimeException {}
