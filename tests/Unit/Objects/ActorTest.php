@@ -44,8 +44,9 @@ it('Group validates successfully with ifi, name and members', function () {
         InverseFunctionalIdentifier::mbox('mailto:test@test.com'),
         'test name',
         [
-            Actor::agent(InverseFunctionalIdentifier::mbox('mailto:test@test.com'))
-        ]);
+            Actor::agent(InverseFunctionalIdentifier::mbox('mailto:test@test.com')),
+        ]
+    );
     expect($group)->toBeInstanceOf(Actor::class)->and($group->jsonSerialize())->toBe([
         'objectType' => 'Group',
         'name' => 'test name',
@@ -54,8 +55,8 @@ it('Group validates successfully with ifi, name and members', function () {
             [
                 'objectType' => 'Agent',
                 'mbox' => 'mailto:test@test.com',
-            ]
-        ]
+            ],
+        ],
     ]);
 })->group('actor', 'group');
 

@@ -6,6 +6,9 @@ use SimonDarke\XapiClient\Exceptions\ValidationException;
 
 readonly class Actor implements \JsonSerializable
 {
+    /**
+     * @param array<int, mixed> $members
+     */
     private function __construct(
         private string                       $objectType,
         private ?string                      $name,
@@ -16,17 +19,18 @@ readonly class Actor implements \JsonSerializable
     public static function agent(
         InverseFunctionalIdentifier $inverseFunctionalIdentifier,
         ?string $name = null,
-    ): self
-    {
+    ): self {
         return new self('Agent', $name, $inverseFunctionalIdentifier, []);
     }
 
+    /**
+     * @param array<int, mixed> $members
+     */
     public static function group(
         ?InverseFunctionalIdentifier $inverseFunctionalIdentifier = null,
         ?string $name = null,
         array $members = [],
-    ): self
-    {
+    ): self {
         if ($inverseFunctionalIdentifier === null && empty($members)) {
             throw ValidationException::invalidField('members', 'an anonymous group must have at least one member');
         }
@@ -41,6 +45,9 @@ readonly class Actor implements \JsonSerializable
     }
 
 
+    /**
+     * @return array<string, mixed>
+     */
     public function jsonSerialize(): array
     {
         $data = ['objectType' => $this->objectType];
@@ -54,7 +61,7 @@ readonly class Actor implements \JsonSerializable
         }
 
         if (!empty($this->members)) {
-            $data['member'] = array_map(fn(Actor $a) => $a->jsonSerialize(), $this->members);
+            $data['member'] = array_map(fn(Actor $a) => $a->jsonSerialize(), array_filter($this->members, fn(mixed $a) => $a instanceof Actor));
         }
 
         return $data;
