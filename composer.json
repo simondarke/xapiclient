@@ -8,6 +8,7 @@
             "SimonDarke\\XapiClient\\": "src/"
         }
     },
+
     "authors": [
         {
             "name": "Simon Darke",
@@ -20,8 +21,16 @@
             "pestphp/pest-plugin": true
         }
     },
+    "require": {
+    "php": ">=8.4"
+    },
     "require-dev": {
         "pestphp/pest": "^4.4",
-        "friendsofphp/php-cs-fixer": "^3.94"
+        "friendsofphp/php-cs-fixer": "^3.94",
+        "phpstan/phpstan": "^2.1"
+    },
+    "scripts": {
+        "format": "php-cs-fixer fix --config=.php-cs-fixer.dist.php",
+        "phpstan": "vendor/bin/phpstan analyse src tests"
     }
 }
